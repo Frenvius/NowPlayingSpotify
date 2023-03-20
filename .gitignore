@@ -1,0 +1,17 @@
+# Rider files
+.idea/
+*.sln.iml
+
+# Compiled files
+/bin/
+/obj/
+*.exe
+*.pdb
+
+# NuGet packages
+/packages/
+*.nupkg
+
+# User-specific files
+*.user
+*.userprefs
