@@ -41,7 +41,6 @@ namespace NowPlayingSpotify {
             contextMenu.MenuItems.Add(exitMenuItem);
             _notifyIcon.ContextMenu = contextMenu;
 
-            GetLatestVersion();
             InitializeComponent();
             SendCurrentMusicToMsn(null, null);
         }
@@ -95,24 +94,6 @@ namespace NowPlayingSpotify {
 
             if (m.Msg == WM_NCHITTEST && (int)m.Result == HTCLIENT)
                 m.Result = (IntPtr)HTCAPTION;
-        }
-
-        private static void GetLatestVersion() {
-            ServicePointManager.SecurityProtocol =
-                SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | (SecurityProtocolType)3072;
-            var request =
-                (HttpWebRequest)WebRequest.Create(
-                    "https://api.github.com/repos/frenvius/nowplayingspotify/releases/latest");
-            request.Method = "GET";
-            request.ContentType = "application/json";
-            request.UserAgent =
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
-            var response = request.GetResponse();
-            var responseString = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException()).ReadToEnd();
-            var jss = new JavaScriptSerializer();
-            var json = jss.Deserialize<Dictionary<string, object>>(responseString);
-            var currentVersion = Application.ProductVersion;
-            Properties.Settings.Default.UpdateAvailable = json["tag_name"].ToString() != currentVersion;
         }
 
         private void PanelMove_MouseDown(object sender, MouseEventArgs e) {
