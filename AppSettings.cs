@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using NowPlayingSpotify.Properties;
@@ -19,9 +20,9 @@ namespace NowPlayingSpotify {
         public AppSettings() {
             var version = Application.ProductVersion;
             InitializeComponent();
-            var haveUpdate = Settings.Default.UpdateAvailable;
-            var updateAvailable = haveUpdate ? " - Update Available" : "";
-            VersionLabel.Text = $"v{version}{updateAvailable}";
+            VersionLabel.Text = $"v{version} - Check for updates";
+            VersionLabel.Click += VersionLabel_Click;
+            VersionLabel.Cursor = Cursors.Hand;
         }
 
         protected override CreateParams CreateParams {
@@ -34,6 +35,10 @@ namespace NowPlayingSpotify {
 
                 return cp;
             }
+        }
+
+        private static void VersionLabel_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/Frenvius/NowPlayingSpotify/releases");
         }
 
         private static bool CheckAeroEnabled() {

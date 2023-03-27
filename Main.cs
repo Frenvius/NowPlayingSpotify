@@ -40,7 +40,7 @@ namespace NowPlayingSpotify {
             exitMenuItem.Click += ExitMenuItem_Click;
             contextMenu.MenuItems.Add(exitMenuItem);
             _notifyIcon.ContextMenu = contextMenu;
-
+            
             InitializeComponent();
             SendCurrentMusicToMsn(null, null);
         }
