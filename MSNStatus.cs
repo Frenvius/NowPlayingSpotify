@@ -9,7 +9,7 @@ namespace NowPlayingSpotify {
         Office
     }
 
-    internal static class MSNStatus {
+    internal static class MsnStatus {
         private const int WM_COPYDATA = 0x4A;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -25,17 +25,13 @@ namespace NowPlayingSpotify {
             return gc;
         }
 
-        public static void Set(bool enable, MsnIconTypes icon, string str1, string str2, string str3, string str4) {
-            string format;
-            if (icon == MsnIconTypes.Music)
-                format = "{0} - {1}";
-            else
-                format = "{0}";
+        private static void Set(bool enable, MsnIconTypes icon, string str1, string str2, string str3, string str4) {
+            var format = icon == MsnIconTypes.Music ? "{0} - {1}" : "{0}";
 
             var buffer = "\\0" + icon + "\\0" + (enable ? "1" : "0") + "\\0" + format + "\\0" + str1 + "\\0" + str2 +
                          "\\0" + str3 + "\\0" + str4 + "\\0\0";
 
-            var handle = 0;
+            const int handle = 0;
             var handlePtr = new IntPtr(handle);
 
             COPYDATASTRUCT data;

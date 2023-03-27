@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace NowPlayingSpotify {
-    public partial class Form1 : Form {
+    public partial class Main : Form {
         private const int WM_NCHITTEST = 0x84;
         private const int HTCLIENT = 0x1;
         private const int HTCAPTION = 0x2;
@@ -18,7 +18,7 @@ namespace NowPlayingSpotify {
         private int MouseX;
         private int MouseY;
 
-        public Form1() {
+        public Main() {
             timer = new Timer();
             timer.Interval = 3000;
             timer.Tick += SendCurrentMusicToMsn;
@@ -51,7 +51,7 @@ namespace NowPlayingSpotify {
         private static bool CheckAeroEnabled() {
             if (Environment.OSVersion.Version.Major < 6) return false;
             var enabled = 0;
-            Program.DwmIsCompositionEnabled(ref enabled);
+            Win32.DwmIsCompositionEnabled(ref enabled);
             return enabled == 1;
         }
 
@@ -60,14 +60,14 @@ namespace NowPlayingSpotify {
                 case WM_NCPAINT:
                     if (m_aeroEnabled) {
                         var v = 2;
-                        Program.DwmSetWindowAttribute(Handle, 2, ref v, 4);
-                        var margins = new Program.Margins {
+                        Win32.DwmSetWindowAttribute(Handle, 2, ref v, 4);
+                        var margins = new Win32.Margins {
                             BottomHeight = 1,
                             LeftWidth = 0,
                             RightWidth = 0,
                             TopHeight = 0
                         };
-                        Program.DwmExtendFrameIntoClientArea(Handle, ref margins);
+                        Win32.DwmExtendFrameIntoClientArea(Handle, ref margins);
                     }
 
                     break;
