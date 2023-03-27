@@ -30,6 +30,7 @@ namespace NowPlayingSpotify {
             this.PanelExit = new System.Windows.Forms.PictureBox();
             this.Title = new System.Windows.Forms.Label();
             this.PanelMove = new System.Windows.Forms.PictureBox();
+            this.StartWithWindows = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PanelExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelMove)).BeginInit();
             // 
@@ -79,6 +80,16 @@ namespace NowPlayingSpotify {
             this.PanelMove.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelMove_MouseMove);
             this.PanelMove.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PanelMove_MouseUp);
             // 
+            // StartWithWindows
+            // 
+            this.StartWithWindows.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.StartWithWindows.Location = new System.Drawing.Point(14, 36);
+            this.StartWithWindows.Name = "StartWithWindows";
+            this.StartWithWindows.Size = new System.Drawing.Size(274, 24);
+            this.StartWithWindows.TabIndex = 7;
+            this.StartWithWindows.Text = "Start application with windows";
+            this.StartWithWindows.UseVisualStyleBackColor = true;
+            this.StartWithWindows.CheckedChanged += new System.EventHandler(this.ToggleWithWindowsSetting);
             // AppSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -103,6 +114,7 @@ namespace NowPlayingSpotify {
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.CheckBox StartWithWindows;
 
         private System.Windows.Forms.Label Title;
         #endregion
