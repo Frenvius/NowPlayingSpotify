@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace NowPlayingSpotify {
     partial class AppSettings {
@@ -31,8 +31,12 @@ namespace NowPlayingSpotify {
             this.Title = new System.Windows.Forms.Label();
             this.PanelMove = new System.Windows.Forms.PictureBox();
             this.StartWithWindows = new System.Windows.Forms.CheckBox();
+            this.VersionPanel = new System.Windows.Forms.PictureBox();
+            this.VersionLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PanelExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelMove)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VersionPanel)).BeginInit();
+            this.SuspendLayout();
             // 
             // LabelExit
             // 
@@ -90,6 +94,27 @@ namespace NowPlayingSpotify {
             this.StartWithWindows.Text = "Start application with windows";
             this.StartWithWindows.UseVisualStyleBackColor = true;
             this.StartWithWindows.CheckedChanged += new System.EventHandler(this.ToggleWithWindowsSetting);
+            // 
+            // VersionPanel
+            // 
+            this.VersionPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
+            this.VersionPanel.Location = new System.Drawing.Point(0, 69);
+            this.VersionPanel.Name = "VersionPanel";
+            this.VersionPanel.Size = new System.Drawing.Size(300, 15);
+            this.VersionPanel.TabIndex = 8;
+            this.VersionPanel.TabStop = false;
+            // 
+            // VersionLabel
+            // 
+            this.VersionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
+            this.VersionLabel.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VersionLabel.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.VersionLabel.Location = new System.Drawing.Point(12, 68);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(252, 15);
+            this.VersionLabel.TabIndex = 9;
+            this.VersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // AppSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -113,6 +138,10 @@ namespace NowPlayingSpotify {
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.Label VersionLabel;
+
+        internal System.Windows.Forms.PictureBox VersionPanel;
 
         private System.Windows.Forms.CheckBox StartWithWindows;
 

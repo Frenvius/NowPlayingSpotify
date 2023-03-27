@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using NowPlayingSpotify.Properties;
@@ -17,7 +17,11 @@ namespace NowPlayingSpotify {
         private int MouseY;
 
         public AppSettings() {
+            var version = Application.ProductVersion;
             InitializeComponent();
+            var haveUpdate = Settings.Default.UpdateAvailable;
+            var updateAvailable = haveUpdate ? "Update Available" : "";
+            VersionLabel.Text = $"v{version} - {updateAvailable}";
         }
 
         protected override CreateParams CreateParams {

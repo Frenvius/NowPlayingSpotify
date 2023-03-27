@@ -1,4 +1,4 @@
-namespace NowPlayingSpotify {
+﻿namespace NowPlayingSpotify {
     partial class Main {
         /// <summary>
         /// Required designer variable.
@@ -33,14 +33,15 @@ namespace NowPlayingSpotify {
             this.PanelMove = new System.Windows.Forms.PictureBox();
             this.PanelSettings = new System.Windows.Forms.PictureBox();
             this.ButtonSettings = new System.Windows.Forms.PictureBox();
+            this.updateCircle = new NowPlayingSpotify.TransparentLabel();
             ((System.ComponentModel.ISupportInitialize)(this.PanelExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelMove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ButtonSettings)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // LabelExit
-            // 
+            //
             this.LabelExit.AutoSize = true;
             this.LabelExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
             this.LabelExit.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -51,9 +52,9 @@ namespace NowPlayingSpotify {
             this.LabelExit.TabIndex = 5;
             this.LabelExit.Text = "X";
             this.LabelExit.Click += new System.EventHandler(this.MinimizeToTray);
-            // 
+            //
             // PanelExit
-            // 
+            //
             this.PanelExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
             this.PanelExit.Location = new System.Drawing.Point(270, 0);
             this.PanelExit.Name = "PanelExit";
@@ -61,9 +62,9 @@ namespace NowPlayingSpotify {
             this.PanelExit.TabIndex = 4;
             this.PanelExit.TabStop = false;
             this.PanelExit.Click += new System.EventHandler(this.MinimizeToTray);
-            // 
+            //
             // Title
-            // 
+            //
             this.Title.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
             this.Title.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Title.ForeColor = System.Drawing.SystemColors.ButtonFace;
@@ -73,9 +74,9 @@ namespace NowPlayingSpotify {
             this.Title.TabIndex = 6;
             this.Title.Text = "Now Playing";
             this.Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // MusicLabel
-            // 
+            //
             this.MusicLabel.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MusicLabel.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.MusicLabel.Location = new System.Drawing.Point(12, 37);
@@ -83,18 +84,18 @@ namespace NowPlayingSpotify {
             this.MusicLabel.Size = new System.Drawing.Size(276, 30);
             this.MusicLabel.TabIndex = 7;
             this.MusicLabel.Text = "No music playing";
-            // 
+            //
             // ArtistLabel
-            // 
+            //
             this.ArtistLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ArtistLabel.ForeColor = System.Drawing.SystemColors.ButtonShadow;
             this.ArtistLabel.Location = new System.Drawing.Point(12, 67);
             this.ArtistLabel.Name = "ArtistLabel";
             this.ArtistLabel.Size = new System.Drawing.Size(276, 25);
             this.ArtistLabel.TabIndex = 8;
-            // 
+            //
             // PanelMove
-            // 
+            //
             this.PanelMove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
             this.PanelMove.Location = new System.Drawing.Point(0, 0);
             this.PanelMove.Name = "PanelMove";
@@ -104,7 +105,7 @@ namespace NowPlayingSpotify {
             this.PanelMove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelMove_MouseDown);
             this.PanelMove.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelMove_MouseMove);
             this.PanelMove.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PanelMove_MouseUp);
-            // 
+            //
             // PanelSettings
             //
             this.PanelSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
@@ -130,11 +131,29 @@ namespace NowPlayingSpotify {
             this.ButtonSettings.TabIndex = 10;
             this.ButtonSettings.TabStop = false;
             this.ButtonSettings.Click += new System.EventHandler(this.Open_Settings);
-            // 
+            //
+            // updateCircle
+            //
+            this.updateCircle.BackColor = System.Drawing.Color.Transparent;
+            this.updateCircle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.updateCircle.ForeColor = System.Drawing.Color.Orange;
+            this.updateCircle.Location = new System.Drawing.Point(255, -4);
+            this.updateCircle.Margin = new System.Windows.Forms.Padding(0);
+            this.updateCircle.Name = "updateCircle";
+            this.updateCircle.Size = new System.Drawing.Size(16, 16);
+            this.updateCircle.TabIndex = 11;
+            this.updateCircle.Text = "●";
+            this.updateCircle.TransparentBackColor = System.Drawing.Color.Transparent;
+            this.updateCircle.Click += new System.EventHandler(this.Open_Settings);
+            this.updateCircle.Cursor = System.Windows.Forms.Cursors.Hand;
+            //
+            // Main
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(26)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(300, 100);
+            this.Controls.Add(this.updateCircle);
             this.Controls.Add(this.ButtonSettings);
             this.Controls.Add(this.PanelSettings);
             this.Controls.Add(this.ArtistLabel);
@@ -155,6 +174,8 @@ namespace NowPlayingSpotify {
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private NowPlayingSpotify.TransparentLabel updateCircle;
 
         internal System.Windows.Forms.PictureBox PanelSettings;
 
