@@ -25,7 +25,7 @@ namespace NowPlayingSpotify {
             timer.Start();
             m_aeroEnabled = false;
             InitializeComponent();
-            // SendCurrentMusicToMsn(null, null);
+            SendCurrentMusicToMsn(null, null);
         }
 
         protected override CreateParams CreateParams {
@@ -41,49 +41,11 @@ namespace NowPlayingSpotify {
         }
 
         private void SendCurrentMusicToMsn(object sender, EventArgs e) {
-            var songInfo = GetCurrentlyPlayingSong();
-            if (songInfo[1] != "Error:") MSNStatus.SetMusic(songInfo[0], songInfo[1], songInfo[2]);
-            if (songInfo[1] == "No music playing") MSNStatus.Clear();
+            var songInfo = Spotify.GetCurrentSong();
+            if (songInfo[1] != "Error:") MsnStatus.SetMusic(songInfo[0], songInfo[1], songInfo[2]);
+            if (songInfo[1] == "No music playing") MsnStatus.Clear();
             ArtistLabel.Text = songInfo[0];
             MusicLabel.Text = songInfo[1];
-        }
-
-        private static List<string> GetCurrentlyPlayingSong() {
-            var chromeWindows = new List<IntPtr>();
-            Program.EnumWindows((hWnd, lParam) => {
-                const int maxClassNameLength = 256;
-                var className = new StringBuilder(maxClassNameLength);
-
-                if (Program.GetClassName(hWnd, className, maxClassNameLength) != 0 &&
-                    className.ToString() == "Chrome_WidgetWin_0") chromeWindows.Add(hWnd);
-
-                return true;
-            }, IntPtr.Zero);
-
-            foreach (var hwnd in chromeWindows.Where(hwnd => hwnd != IntPtr.Zero)) {
-                Program.GetWindowThreadProcessId(hwnd, out var pid);
-
-                var processList = Process.GetProcesses();
-                if (processList.Where(p => p.Id == pid).All(p => p.ProcessName != "Spotify")) continue;
-                const int WM_GETTEXT = 0x000D;
-                const int MAX_TEXT_LENGTH = 256;
-                var titleBuilder = new StringBuilder(MAX_TEXT_LENGTH);
-                var result = Program.SendMessage(hwnd, WM_GETTEXT, (IntPtr)MAX_TEXT_LENGTH,
-                    titleBuilder);
-                if (result == IntPtr.Zero)
-                    throw new Exception("SendMessage error: " + Program.GetLastError());
-                var title = titleBuilder.ToString();
-                var titleParts = title.Split(new[] { " - " }, StringSplitOptions.None);
-                var artist = titleParts.Length > 1 ? titleParts[0] : "";
-                var songTitle = titleParts.Length > 1 ? titleParts[1] : titleParts[0];
-                var album = titleParts.Length > 2 ? titleParts[2] : "";
-                if (songTitle == "Spotify Premium") return new List<string> { "", "No music playing", "" };
-                return new List<string> {
-                    artist.Trim(), songTitle.Trim(), album.Trim()
-                };
-            }
-
-            return new List<string> { "Spotify window not found", "Error:", "" };
         }
 
         private static bool CheckAeroEnabled() {
