@@ -20,8 +20,8 @@ namespace NowPlayingSpotify {
             var version = Application.ProductVersion;
             InitializeComponent();
             var haveUpdate = Settings.Default.UpdateAvailable;
-            var updateAvailable = haveUpdate ? "Update Available" : "";
-            VersionLabel.Text = $"v{version} - {updateAvailable}";
+            var updateAvailable = haveUpdate ? " - Update Available" : "";
+            VersionLabel.Text = $"v{version}{updateAvailable}";
         }
 
         protected override CreateParams CreateParams {

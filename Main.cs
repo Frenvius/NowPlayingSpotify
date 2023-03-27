@@ -111,10 +111,8 @@ namespace NowPlayingSpotify {
             var responseString = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException()).ReadToEnd();
             var jss = new JavaScriptSerializer();
             var json = jss.Deserialize<Dictionary<string, object>>(responseString);
-            var latestVersion = json["tag_name"].ToString();
             var currentVersion = Application.ProductVersion;
-            if (latestVersion != currentVersion)
-                Properties.Settings.Default.UpdateAvailable = true;
+            Properties.Settings.Default.UpdateAvailable = json["tag_name"].ToString() != currentVersion;
         }
 
         private void PanelMove_MouseDown(object sender, MouseEventArgs e) {

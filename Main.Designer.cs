@@ -146,6 +146,7 @@
             this.updateCircle.TransparentBackColor = System.Drawing.Color.Transparent;
             this.updateCircle.Click += new System.EventHandler(this.Open_Settings);
             this.updateCircle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.updateCircle.Visible = Properties.Settings.Default.UpdateAvailable;
             //
             // Main
             //
