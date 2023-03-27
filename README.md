@@ -25,7 +25,7 @@ NowPlayingSpotify is a simple application that retrieves the currently playing s
 - [x] Get currently playing song from Spotify
 - [x] Display currently playing song in application
 - [x] Send currently playing song to Windows Live Messenger
-- [ ] Add a settings page
+- [x] Add a settings page
 - [ ] Add option to start application on Windows startup
 - [x] Minimize application to system tray
 - [ ] Add music controls to application (maybe, if possible)
