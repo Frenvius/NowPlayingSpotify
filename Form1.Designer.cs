@@ -1,5 +1,5 @@
-﻿namespace NowPlayingSpotify {
-    partial class Form1 {
+namespace NowPlayingSpotify {
+    partial class Main {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -24,7 +24,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.LabelExit = new System.Windows.Forms.Label();
             this.PanelExit = new System.Windows.Forms.PictureBox();
             this.Title = new System.Windows.Forms.Label();
@@ -39,13 +39,14 @@
             // 
             this.LabelExit.AutoSize = true;
             this.LabelExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
+            this.LabelExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LabelExit.ForeColor = System.Drawing.Color.White;
-            this.LabelExit.Location = new System.Drawing.Point(278, 6);
+            this.LabelExit.Location = new System.Drawing.Point(278, 7);
             this.LabelExit.Name = "LabelExit";
             this.LabelExit.Size = new System.Drawing.Size(14, 13);
             this.LabelExit.TabIndex = 5;
             this.LabelExit.Text = "X";
-            this.LabelExit.Click += new System.EventHandler(this.LabelExit_Click);
+            this.LabelExit.Click += new System.EventHandler(this.MinimizeToTray);
             // 
             // PanelExit
             // 
@@ -55,7 +56,7 @@
             this.PanelExit.Size = new System.Drawing.Size(30, 25);
             this.PanelExit.TabIndex = 4;
             this.PanelExit.TabStop = false;
-            this.PanelExit.Click += new System.EventHandler(this.PanelExit_Click);
+            this.PanelExit.Click += new System.EventHandler(this.MinimizeToTray);
             // 
             // Title
             // 
@@ -115,7 +116,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(15, 15);
-            this.Name = "Form1";
+            this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)(this.PanelExit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelMove)).EndInit();

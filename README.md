@@ -1,4 +1,4 @@
-﻿# NowPlayingSpotify
+# NowPlayingSpotify
 
 NowPlayingSpotify is a simple application that retrieves the currently playing song from the Spotify application and displays it in a Windows Forms application and sends it to Windows Live Messenger.
 
@@ -27,7 +27,7 @@ NowPlayingSpotify is a simple application that retrieves the currently playing s
 - [x] Send currently playing song to Windows Live Messenger
 - [ ] Add a settings page
 - [ ] Add option to start application on Windows startup
-- [ ] Minimize application to system tray
+- [x] Minimize application to system tray
 - [ ] Add music controls to application (maybe, if possible)
 - [ ] Add support for other languages
 

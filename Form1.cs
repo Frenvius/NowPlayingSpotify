@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace NowPlayingSpotify {
         private const int HTCAPTION = 0x2;
         private const int CS_DROPSHADOW = 0x00020000;
         private const int WM_NCPAINT = 0x0085;
+        private readonly NotifyIcon _notifyIcon;
         private readonly Timer timer;
         private bool Drag;
         private bool m_aeroEnabled;
@@ -24,6 +25,19 @@ namespace NowPlayingSpotify {
             timer.Tick += SendCurrentMusicToMsn;
             timer.Start();
             m_aeroEnabled = false;
+            var resources = new ComponentResourceManager(typeof(Main));
+
+            _notifyIcon = new NotifyIcon {
+                Icon = (Icon)resources.GetObject("$this.Icon"),
+                Text = "Now Playing",
+                Visible = false
+            };
+
+            var contextMenu = new ContextMenu();
+            var exitMenuItem = new MenuItem("Exit");
+            exitMenuItem.Click += ExitMenuItem_Click;
+            contextMenu.MenuItems.Add(exitMenuItem);
+            _notifyIcon.ContextMenu = contextMenu;
             InitializeComponent();
             SendCurrentMusicToMsn(null, null);
         }
@@ -95,14 +109,28 @@ namespace NowPlayingSpotify {
             Drag = false;
         }
 
-        private void LabelExit_Click(object sender, EventArgs e) {
-            MSNStatus.Clear();
+        private void MinimizeToTray(object sender, EventArgs e) {
+            Hide();
+            _notifyIcon.Visible = true;
+            _notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+        }
+
+        private static void ExitMenuItem_Click(object sender, EventArgs e) {
+            MsnStatus.Clear();
             Environment.Exit(0);
         }
 
-        private void PanelExit_Click(object sender, EventArgs e) {
-            MSNStatus.Clear();
-            Environment.Exit(0);
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
+            Show();
+            _notifyIcon.Visible = false;
+        }
+
+        private void Open_Settings(object sender, EventArgs e) {
+            var settings = new AppSettings();
+            settings.Show();
+            settings.Location = new Point(Location.X, Location.Y + Height);
+            Enabled = false;
+            settings.FormClosed += (o, args) => Enabled = true;
         }
     }
 }
