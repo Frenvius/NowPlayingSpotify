@@ -93,14 +93,15 @@ namespace NowPlayingSpotify {
             this.StartWithWindows.TabIndex = 7;
             this.StartWithWindows.Text = "Start application with windows";
             this.StartWithWindows.UseVisualStyleBackColor = true;
+            this.StartWithWindows.Checked = Properties.Settings.Default.RunOnStartup;
             this.StartWithWindows.CheckedChanged += new System.EventHandler(this.ToggleWithWindowsSetting);
             // 
             // VersionPanel
             // 
             this.VersionPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(39)))));
-            this.VersionPanel.Location = new System.Drawing.Point(0, 69);
+            this.VersionPanel.Location = new System.Drawing.Point(0, 68);
             this.VersionPanel.Name = "VersionPanel";
-            this.VersionPanel.Size = new System.Drawing.Size(300, 15);
+            this.VersionPanel.Size = new System.Drawing.Size(300, 16);
             this.VersionPanel.TabIndex = 8;
             this.VersionPanel.TabStop = false;
             // 
