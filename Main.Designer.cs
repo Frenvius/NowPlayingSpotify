@@ -116,6 +116,7 @@
             this.PanelSettings.TabIndex = 9;
             this.PanelSettings.TabStop = false;
             this.PanelSettings.Click += new System.EventHandler(this.Open_Settings);
+            this.PanelSettings.Visible = false;
             // 
             // ButtonSettings
             // 
@@ -130,6 +131,7 @@
             this.ButtonSettings.TabIndex = 10;
             this.ButtonSettings.TabStop = false;
             this.ButtonSettings.Click += new System.EventHandler(this.Open_Settings);
+            this.ButtonSettings.Visible = false;
             // 
             // Main
             // 

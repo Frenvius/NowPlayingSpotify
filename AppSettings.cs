@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using NowPlayingSpotify.Properties;
 
 namespace NowPlayingSpotify {
     public partial class AppSettings : Form {
@@ -90,19 +88,6 @@ namespace NowPlayingSpotify {
 
         private void Close_Settings(object sender, EventArgs e) {
             Close();
-        }
-
-        private void ToggleWithWindowsSetting(object sender, EventArgs e) {
-            var checkbox = (CheckBox)sender;
-            var value = checkbox.Checked;
-            var appPath = Application.ExecutablePath;
-            Settings.Default.RunOnStartup = value;
-            Settings.Default.Save();
-            var rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (value)
-                rkApp?.SetValue("NowPlayingSpotify", appPath);
-            else
-                rkApp?.DeleteValue("NowPlayingSpotify", false);
         }
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?define ProductName = "NowPlayingSpotify" ?>
+    <?define targetDir = $(var.NowPlayingSpotify.TargetDir)?>
+    <?define UpgradeCode = "{9b7e80f4-ec3d-4817-881b-f28cab6a77e3}" ?>
+    <?define Version = "!(bind.fileVersion.NowPlayingSpotify.exe)" ?>
+    <Product Id="*" UpgradeCode="$(var.UpgradeCode)" Name="$(var.ProductName)" Version="$(var.Version)" Manufacturer="Frenvius" Language="1033" Codepage="1250">
+        <Package InstallerVersion="200" AdminImage="no" SummaryCodepage="1250" InstallPrivileges="elevated" Compressed="yes" InstallScope="perMachine"/>
+        <Media Id="1" Cabinet="AddIn.cab" CompressionLevel="mszip" EmbedCab="yes"/>
+        <Upgrade Id="$(var.UpgradeCode)">
+            <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED"/>
+            <UpgradeVersion Minimum="0.0.0" Maximum="$(var.Version)" IncludeMinimum="yes" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED"/>
+        </Upgrade>
+        <InstallExecuteSequence>
+            <RemoveExistingProducts After="InstallInitialize"/>
+            <Custom Action="NewerVersion" After="FindRelatedProducts">NEWERVERSIONDETECTED</Custom>
+            <Custom Action="RemoveStartup" Before="InstallFinalize">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+        </InstallExecuteSequence>
+        <CustomAction Id="NewerVersion" Error="A later version of [ProductName] is already installed."/>
+        <Feature Id="ProductFeature" Title="SetupSample_Setup" Level="1">
+            <ComponentGroupRef Id="ProductComponents"/>
+            <ComponentRef Id="DesktopShortcut" />
+        </Feature>
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+        <UI>
+            <UIRef Id="MyWixUI_InstallDir"/>
+            <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch NowPlayingSpotify"/>
+            <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+            <Property Id="WIXUI_EXITDIALOGSTARTUPCHECKBOX" Value="1"/>
+            <Property Id="DESKTOPSHORTCUT" Value="1"/>
+        </UI>
+        <Property Id="NPSEXEPATH" Secure="yes">
+            <RegistrySearch Id="RS_NPSEXEPATH" Root="HKLM" Key="Software\Frenvius\NowPlayingSpotify\Current Version" Name="Executable" Type="raw" Win64="yes"/>
+        </Property>
+        <Property Id="WixShellExecTarget" Value="[NPSEXEPATH]"/>
+        <CustomAction Id="LaunchApplication" Impersonate="yes" Return="asyncNoWait" FileKey="NowPlayingSpotify.exe" ExeCommand="" />
+        <CustomAction Id="RunOnStartup" Impersonate="yes" Directory="INSTALLFOLDER" Return="asyncNoWait" ExeCommand="REG ADD HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v NowPlayingSpotify /t REG_SZ /d $(var.targetDir)NowPlayingSpotify.exe /f" />
+        <CustomAction Id="RemoveStartup" Impersonate="yes" Directory="INSTALLFOLDER" Return="asyncNoWait" ExeCommand="REG DELETE HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v NowPlayingSpotify /f" />
+    </Product>
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="NowPlayingSpotify"/>
+            </Directory>
+            <Directory Id="DesktopFolder" />
+        </Directory>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+            <Component Id="NowPlayingSpotify.exe" Guid="a3ce771f-1861-4d2f-8d0c-618a94ae699b">
+                <File Id="NowPlayingSpotify.exe" Name="NowPlayingSpotify.exe" Source="$(var.targetDir)NowPlayingSpotify.exe"/>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <Component Id="DesktopShortcut" Directory="INSTALLFOLDER" Guid="*">
+            <Condition>DESKTOPSHORTCUT</Condition>
+            <RegistryValue Id="RegShortcutDesktop" Root="HKCU" Key="Software\Company\NowPlayingSpotify" Name="DesktopSC" Value="1" Type="integer" KeyPath="yes" />
+            <Shortcut Id="desktopSC" Target="[INSTALLFOLDER]NowPlayingSpotify.exe" WorkingDirectory="INSTALLFOLDER" Directory="DesktopFolder" Name="NowPlayingSpotify" Advertise="no" />
+        </Component>
+    </Fragment>
+</Wix>

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
-using System.Net;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace NowPlayingSpotify {
@@ -32,7 +28,7 @@ namespace NowPlayingSpotify {
             _notifyIcon = new NotifyIcon {
                 Icon = (Icon)resources.GetObject("$this.Icon"),
                 Text = "Now Playing",
-                Visible = false
+                Visible = true
             };
 
             var contextMenu = new ContextMenu();
@@ -40,7 +36,7 @@ namespace NowPlayingSpotify {
             exitMenuItem.Click += ExitMenuItem_Click;
             contextMenu.MenuItems.Add(exitMenuItem);
             _notifyIcon.ContextMenu = contextMenu;
-            
+
             InitializeComponent();
             SendCurrentMusicToMsn(null, null);
         }
@@ -125,7 +121,6 @@ namespace NowPlayingSpotify {
 
         private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
             Show();
-            _notifyIcon.Visible = false;
         }
 
         private void Open_Settings(object sender, EventArgs e) {
