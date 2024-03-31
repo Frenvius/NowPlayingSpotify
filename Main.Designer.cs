@@ -88,7 +88,7 @@
             // 
             this.ArtistLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ArtistLabel.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ArtistLabel.Location = new System.Drawing.Point(12, 67);
+            this.ArtistLabel.Location = new System.Drawing.Point(15, 67);
             this.ArtistLabel.Name = "ArtistLabel";
             this.ArtistLabel.Size = new System.Drawing.Size(276, 25);
             this.ArtistLabel.TabIndex = 8;

@@ -11,38 +11,32 @@ namespace NowPlayingSpotify {
         private static DateTime _lastGetSpotifyCall = DateTime.MinValue;
         private static int _cachedProcId;
         private static IntPtr _cachedHWnd;
+        
+        private static IntPtr GetSpotifyByProcess() {
+            foreach (var process in Process.GetProcessesByName("Spotify")) {
+                if (!string.IsNullOrEmpty(process.MainWindowTitle))
+                    return process.MainWindowHandle;
+            }
+            return IntPtr.Zero;
+        }
 
         private static IntPtr GetSpotify() {
             if (DateTime.Now.Subtract(_lastGetSpotifyCall).TotalSeconds < _GET_SPOTIFY_RETURN_LAST_SEC)
                 return _cachedHWnd;
 
             _lastGetSpotifyCall = DateTime.Now;
-            var rv = IntPtr.Zero;
-            var processesByName = Process.GetProcessesByName("spotify");
 
-            if (Array.Exists(processesByName, proc => proc.Id == _cachedProcId))
-                return _cachedHWnd;
+            const string windowClassName = "Chrome_WidgetWin_0";
+            var rv = Win32.FindWindow(windowClassName, "Spotify");
 
-            foreach (var proc in processesByName)
-            foreach (ProcessThread thread in proc.Threads) {
-                Win32.EnumThreadWindows(thread.Id, (IntPtr hWnd, IntPtr lParam) => {
-                    var sb = new StringBuilder(256);
-                    var ret = Win32.GetClassName(hWnd, sb, sb.Capacity);
-                    if (ret == 0) return true;
-                    if (sb.ToString() != "Chrome_WidgetWin_0") return true;
-                    ret = Win32.GetWindowText(hWnd, sb, sb.Capacity);
-                    if (ret == 0) return true;
-                    if (string.IsNullOrEmpty(sb.ToString())) return true;
-                    rv = hWnd;
-
-                    _cachedProcId = proc.Id;
-                    _cachedHWnd = hWnd;
-
-                    return false;
-                }, IntPtr.Zero);
-
-                if (rv != IntPtr.Zero) return rv;
+            if (rv == IntPtr.Zero) {
+                rv = GetSpotifyByProcess();
             }
+
+            if (rv == IntPtr.Zero) return rv;
+            var proc = Process.GetProcessById(_cachedProcId);
+            _cachedProcId = proc.Id;
+            _cachedHWnd = rv;
 
             return rv;
         }
