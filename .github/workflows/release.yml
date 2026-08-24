@@ -1,0 +1,101 @@
+name: release
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install the i686 mingw toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            g++-mingw-w64-i686 binutils-mingw-w64-i686 zip
+
+      - name: Build
+        run: |
+          make CXX=i686-w64-mingw32-g++ WINDRES=i686-w64-mingw32-windres
+          ls -l build/NowPlayingSpotify.exe
+
+      - name: Verify the binary still loads on Windows XP
+        run: |
+          exe=build/NowPlayingSpotify.exe
+          objdump=i686-w64-mingw32-objdump
+
+          major=$($objdump -p "$exe" | awk '/MajorSubsystemVersion/ { print $2 }')
+          minor=$($objdump -p "$exe" | awk '/MinorSubsystemVersion/ { print $2 }')
+          echo "subsystem $major.$minor"
+          if [ "$major.$minor" != "5.1" ]; then
+            echo "::error::subsystem is $major.$minor, the XP loader needs 5.1"
+            exit 1
+          fi
+
+          $objdump -x "$exe" | sed -n '/The Import Tables/,$p' > imports.raw
+
+          LC_ALL=C grep 'DLL Name:' imports.raw | awk '{ print $3 }' | sort -u > actual-dlls.txt
+          printf '%s\n' ADVAPI32.dll GDI32.dll KERNEL32.dll SHELL32.dll USER32.dll msvcrt.dll \
+            | LC_ALL=C sort > expected-dlls.txt
+          echo "imported dlls:"
+          cat actual-dlls.txt
+          if ! diff -u expected-dlls.txt actual-dlls.txt; then
+            echo "::error::the set of imported dlls changed, re-check XP support before releasing"
+            exit 1
+          fi
+
+          awk '$2 == "<none>" { print $4 }' imports.raw | sort -u > symbols.txt
+          echo "imported symbols: $(wc -l < symbols.txt)"
+          if grep -Eq 'GetDynamicTimeZoneInformation|^Dwm|GetTickCount64|InitializeCriticalSectionEx|InitializeSRWLock|GetUserDefaultLocaleName' symbols.txt; then
+            echo "::error::a Vista-only entry point got linked in"
+            grep -E 'GetDynamicTimeZoneInformation|^Dwm|GetTickCount64|InitializeCriticalSectionEx|InitializeSRWLock|GetUserDefaultLocaleName' symbols.txt
+            exit 1
+          fi
+
+      - name: Read the version
+        id: version
+        run: |
+          value=$(tr -d '[:space:]' < VERSION)
+          if ! printf '%s' "$value" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::VERSION holds '$value', expected a semver like 2.0.0"
+            exit 1
+          fi
+          echo "value=$value" >> "$GITHUB_OUTPUT"
+          if git rev-parse "refs/tags/$value" >/dev/null 2>&1; then
+            echo "released=true" >> "$GITHUB_OUTPUT"
+            echo "tag $value already exists, this run will only build"
+          else
+            echo "released=false" >> "$GITHUB_OUTPUT"
+            echo "tag $value is new, this run will publish a release"
+          fi
+
+      - name: Package
+        run: |
+          mkdir -p dist
+          cp build/NowPlayingSpotify.exe dist/
+          cd dist
+          zip -j "NowPlayingSpotify-${{ steps.version.outputs.value }}.zip" NowPlayingSpotify.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NowPlayingSpotify-${{ steps.version.outputs.value }}
+          path: dist/*.zip
+          if-no-files-found: error
+
+      - name: Publish the release
+        if: steps.version.outputs.released == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.version.outputs.value }}" dist/*.zip \
+            --title "${{ steps.version.outputs.value }}" \
+            --generate-notes
