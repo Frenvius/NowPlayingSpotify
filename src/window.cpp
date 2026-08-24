@@ -3,6 +3,7 @@
 #include "messenger.h"
 #include "resource.h"
 #include "spotify.h"
+#include "startup.h"
 #include "text.h"
 
 namespace {
@@ -10,12 +11,15 @@ namespace {
 const wchar_t kWindowClass[] = L"NowPlayingSpotifyWindow";
 const wchar_t kWindowTitle[] = L"Now Playing";
 const wchar_t kIdleText[] = L"No music playing";
+const wchar_t kStartupText[] = L"Start with Windows";
+const wchar_t kExitText[] = L"Exit";
 
 const UINT kPollTimerId = 1;
 const UINT kPollIntervalMs = 3000;
 const UINT kTrayCallbackMessage = WM_APP + 1;
 const UINT kTrayIconId = 1;
 const UINT kExitCommand = 100;
+const UINT kStartupCommand = 101;
 
 const int kWindowWidth = 300;
 const int kWindowHeight = 100;
@@ -289,6 +293,8 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wp, LPARAM lp) {
   case WM_COMMAND:
     if (LOWORD(wp) == kExitCommand)
       Quit();
+    else if (LOWORD(wp) == kStartupCommand)
+      SetStartupEnabled(!IsStartupEnabled());
     return 0;
   case WM_CLOSE:
     ShowWindow(window_, SW_HIDE);
@@ -374,7 +380,10 @@ void MainWindow::ShowTrayMenu() const {
   if (!menu)
     return;
 
-  AppendMenuW(menu, MF_STRING, kExitCommand, L"Exit");
+  AppendMenuW(menu, MF_STRING | (IsStartupEnabled() ? MF_CHECKED : MF_UNCHECKED),
+              kStartupCommand, kStartupText);
+  AppendMenuW(menu, MF_SEPARATOR, 0, 0);
+  AppendMenuW(menu, MF_STRING, kExitCommand, kExitText);
 
   POINT cursor;
   GetCursorPos(&cursor);

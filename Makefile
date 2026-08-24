@@ -12,12 +12,13 @@ CXXFLAGS := -Isrc -O2 -municode -fno-exceptions -fno-rtti -nostdlib++ -Wall -Wex
 LDFLAGS := -mwindows -municode -static -static-libgcc -s \
            -Wl,--major-subsystem-version=5 -Wl,--minor-subsystem-version=1 \
            -Wl,--major-os-version=5 -Wl,--minor-os-version=1
-LIBS := -luser32 -lgdi32 -lshell32 -lkernel32
+LIBS := -luser32 -lgdi32 -lshell32 -lkernel32 -ladvapi32
 
 SOURCES := \
     src/main.cpp \
     src/messenger.cpp \
     src/spotify.cpp \
+    src/startup.cpp \
     src/title_parser.cpp \
     src/window.cpp
 
