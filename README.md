@@ -1,36 +1,56 @@
-﻿# NowPlayingSpotify
+# NowPlayingSpotify
 
-NowPlayingSpotify is a simple application that retrieves the currently playing song from the Spotify application and displays it in a Windows Forms application and sends it to Windows Live Messenger.
+NowPlayingSpotify reads the song currently playing in the Spotify desktop app, shows it in a small
+tray window, and publishes it to Windows Live Messenger as your "now playing" status.
+
+It is a single Win32 executable with no runtime dependency.
+One 40 KB file that runs on Windows XP through Windows 11.
 
 ## Requirements
 
-- Windows operating system (windows 7 or higher, not tested on XP)
-- .NET Framework 3.5
+- Windows XP or newer
 - Spotify desktop application installed
-- Windows Live Messenger installed (using [Escargot.chat](https://escargot.chat/))
+- Windows Live Messenger, connected through [Escargot.chat](https://escargot.chat/)
+
+In Messenger, the "show what I'm listening to" option must be enabled, otherwise it ignores the
+status. It is in the dropdown next to your personal message, or under Tools > Options > Personal.
 
 ## Installation
 
-1. Download the latest release of the application from the [releases](https://github.com/Frenvius/NowPlayingSpotify/releases) page.
-2. Extract the downloaded ZIP archive to a folder on your computer.
-3. Run the `NowPlayingSpotify.exe` file.
+1. Download the latest release from the [releases](https://github.com/Frenvius/NowPlayingSpotify/releases) page.
+2. Extract the archive anywhere.
+3. Run `NowPlayingSpotify.exe`.
 
 ## Usage
 
-1. Start the Spotify desktop application and play a song on spotify.
-2. Start the `NowPlayingSpotify` application.
-3. The currently playing song will be displayed in the application and sent to the Windows Live Messenger.
+1. Start Spotify and play a song.
+2. Start `NowPlayingSpotify`.
+3. The song shows up in the window and in Messenger, refreshing every 3 seconds.
+
+Drag the window from anywhere on it. The close button hides it to the tray; double click the tray
+icon to bring it back, right click it for Exit. Quitting clears the Messenger status.
+
+## Building
+
+Requires a MinGW-w64 i686 toolchain with the MSVCRT runtime ([WinLibs](https://winlibs.com/)):
+
+```
+export PATH="/path/to/mingw32/bin:$PATH"
+mingw32-make          # -> build/NowPlayingSpotify.exe
+```
 
 ## To Do
+
 - [x] Get currently playing song from Spotify
 - [x] Display currently playing song in application
 - [x] Send currently playing song to Windows Live Messenger
-- [x] Add a settings page
-- [x] Add option to start application on Windows startup
 - [x] Minimize application to system tray
+- [ ] Add a settings page
+- [ ] Add option to start application on Windows startup
 - [ ] Add music controls to application (maybe, if possible)
 - [ ] Add support for other languages
 
 ## Contributing
 
-If you encounter any issues or have suggestions for improvements, please [open an issue](https://github.com/Frenvius/NowPlayingSpotify/issues) or submit a pull request.
+If you encounter any issues or have suggestions for improvements, please
+[open an issue](https://github.com/Frenvius/NowPlayingSpotify/issues) or submit a pull request.
